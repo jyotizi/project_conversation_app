@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  activity_type: MyString
+  comment: MyText
+  old_status: MyString
+  new_status: MyString
+  project: one
+  user: one
+
+two:
+  activity_type: MyString
+  comment: MyText
+  old_status: MyString
+  new_status: MyString
+  project: two
+  user: two

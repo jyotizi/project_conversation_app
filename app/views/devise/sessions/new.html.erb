@@ -1,0 +1,24 @@
+<div class="box">
+  <span class="borderLine"></span>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <h2>Log in</h2>
+
+  <div class="inputBox">
+    <%= f.email_field :email, required: true, autofocus: true, autocomplete: "email", placeholder: " " %>
+    <span>Email</span>
+    <i></i>
+  </div>
+
+  <div class="inputBox" style="margin-bottom: 20px;">
+    <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: " " %>
+    <span>Password</span>
+    <i></i>
+  </div>
+
+  <div class="links">
+    <%= render "devise/shared/links" %>
+  </div>
+
+  <%= f.submit "Log in", id: "submit" %>
+  <% end %>
+</div>
