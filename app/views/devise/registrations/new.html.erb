@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box mt-5 mx-auto">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <h2>Sign up</h2>
   <%= render "devise/shared/error_messages", resource: resource %>
@@ -21,8 +21,9 @@
     <i></i>
   </div>
 
-  <div class="actions">
+  <div class="actions d-inline">
     <%= f.submit "Sign up", id: "submit" %>
+    <%= link_to "Login", new_user_session_path, class: "ms-5 text-primary text-decoration-none" %>
   </div>
   <% end %>
 

@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-2">
+  <%= link_to "Project Management", root_path, class: "navbar-brand" %>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav me-auto">
+    </ul>
+
+    <div class="d-flex flex-column flex-sm-row align-items-center gap-3">
+    <% unless user_signed_in? %>
+      <%= link_to "Login", new_user_session_path, class: "text-primary text-decoration-none" %>
+      <% else %>
+      <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-danger text-decoration-none" %>
+      <% end %>
+    </div>
+  </div>
+</nav>
