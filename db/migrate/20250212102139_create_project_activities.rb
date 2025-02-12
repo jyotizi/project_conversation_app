@@ -6,7 +6,7 @@ class CreateProjectActivities < ActiveRecord::Migration[7.1]
       t.string :old_status
       t.string :new_status
       t.references :project, null: false, foreign_key: true
-      t.references :user, null: false, foreign_key: true
+      t.references :user, foreign_key: true
 
       t.timestamps
     end

@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_12_102139) do
     t.string "old_status"
     t.string "new_status"
     t.bigint "project_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_project_activities_on_project_id"
