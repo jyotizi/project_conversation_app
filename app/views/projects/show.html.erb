@@ -1,0 +1,96 @@
+<div class="container mt-5">
+  <div class="mb-3">
+    <%= link_to "Back", projects_path, class: "btn btn-secondary" %>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h1 class="card-title text-center"><%= @project.title.capitalize %></h1>
+      <p class="card-text text-center"><%= @project.description %></p>
+      <p class="text-center">
+        Current Status: <span class="badge bg-success"><%= @project.status %></span>
+      </p>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs" id="projectTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="true">
+        Conversation History
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="comment-tab" data-bs-toggle="tab" data-bs-target="#comment" type="button" role="tab" aria-controls="comment" aria-selected="false">
+        Add Comment
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab" aria-controls="status" aria-selected="false">
+        Change Status
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="projectTabsContent">
+    <div class="tab-pane fade show active" id="history" role="tabpanel" aria-labelledby="history-tab">
+      <div class="table-responsive mt-3">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>User</th>
+              <th>Timestamp</th>
+              <th>Event</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @project.project_activities.order(created_at: :desc).each do |activity| %>
+            <tr>
+              <td><%= activity.user.email %></td>
+              <td><%= formatted_timestamp(activity.created_at) %></td>
+              <td>
+                <% if activity.activity_type == "comment" %>
+                <strong>Comment:</strong> <%= activity.comment %>
+                <% elsif activity.activity_type == "status_change" %>
+                <strong>Status Change:</strong> from <%= activity.old_status %> to <%= activity.new_status %>
+                <% else %>
+                N/A
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
+      <div class="mt-3">
+        <%= form_with(model: [@project, ProjectActivity.new], local: true) do |form| %>
+        <%= form.hidden_field :activity_type, value: "comment" %>
+        <div class="mb-3">
+          <%= form.label :comment, "Comment", class: "form-label" %>
+          <%= form.text_area :comment, placeholder: "Your comment here...", class: "form-control" %>
+        </div>
+        <div>
+          <%= form.submit "Post Comment", class: "btn btn-primary" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
+      <div class="mt-3">
+        <%= form_with(url: project_project_activities_path(@project), scope: :project_activity, local: true) do |form| %>
+        <%= form.hidden_field :activity_type, value: "status_change" %>
+        <div class="mb-3">
+          <%= form.label :new_status, "New Status", class: "form-label" %>
+          <%= form.select :new_status, options_for_select(Project::STATUSES, @project.status), {}, class: "form-select" %>
+        </div>
+        <div>
+          <%= form.submit "Change Status", class: "btn btn-success" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
